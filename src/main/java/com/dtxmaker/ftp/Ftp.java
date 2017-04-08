@@ -12,26 +12,26 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
-// FIXME ²Î¤@µù¸Ñ®æ¦¡
+// FIXME çµ±ä¸€è¨»è§£æ ¼å¼
 
 public class Ftp {
 
-	private Socket controlSocket = null;	// ¶Ç°e«ü¥O»P±µ¦¬¦øªAºİ¦^À³©Ò¨Ï¥Îªºsocket
-	private FtpSocket dataSocket = null;	// »P¦øªAºİ¤§¶¡¶Ç°eÀÉ®×©Ò¨Ï¥Îªºsocket
-	private BufferedReader reader = null;	// Åª¨ú¦øªAºİ¦^À³©Ò¥Îªº¸ê®Æ¬y
-	private BufferedWriter writer = null;	// ¶Ç°e«ü¥O¨ì¦øªAºİ©Ò¥Îªº¸ê®Æ¬y
+	private Socket controlSocket = null;	// å‚³é€æŒ‡ä»¤èˆ‡æ¥æ”¶ä¼ºæœç«¯å›æ‡‰æ‰€ä½¿ç”¨çš„socket
+	private FtpSocket dataSocket = null;	// èˆ‡ä¼ºæœç«¯ä¹‹é–“å‚³é€æª”æ¡ˆæ‰€ä½¿ç”¨çš„socket
+	private BufferedReader reader = null;	// è®€å–ä¼ºæœç«¯å›æ‡‰æ‰€ç”¨çš„è³‡æ–™æµ
+	private BufferedWriter writer = null;	// å‚³é€æŒ‡ä»¤åˆ°ä¼ºæœç«¯æ‰€ç”¨çš„è³‡æ–™æµ
 	
-	private String host;				// ¦øªAºİªº¦ì§}
-	private int port;					// ¦øªAºİªº³s±µ°ğ
-	private String username;			// µn¤J¦øªAºİ©Ò¥Îªº¨Ï¥ÎªÌ¦WºÙ
-	private String password;			// µn¤J¦øªAºİ©Ò¥Îªº±K½X
-	private InetAddress serverhost;		// ¦øªAºİºô¸ô¦ì§}
-	private InetAddress localhost;		// ¥»¦aºİºô¸ô¦ì§}
-	private File localdir;				// ¥»¦aºİ¤u§@¥Ø¿ı
-	private boolean passive = false;		// ³Q°Ê¼Ò¦¡
+	private String host;				// ä¼ºæœç«¯çš„ä½å€
+	private int port;					// ä¼ºæœç«¯çš„é€£æ¥åŸ 
+	private String username;			// ç™»å…¥ä¼ºæœç«¯æ‰€ç”¨çš„ä½¿ç”¨è€…åç¨±
+	private String password;			// ç™»å…¥ä¼ºæœç«¯æ‰€ç”¨çš„å¯†ç¢¼
+	private InetAddress serverhost;		// ä¼ºæœç«¯ç¶²è·¯ä½å€
+	private InetAddress localhost;		// æœ¬åœ°ç«¯ç¶²è·¯ä½å€
+	private File localdir;				// æœ¬åœ°ç«¯å·¥ä½œç›®éŒ„
+	private boolean passive = false;		// è¢«å‹•æ¨¡å¼
 	
-	private static boolean TOGGLE_COMMAND = false;	// Åã¥Ü¥»¦aºİ°e¥Xªº«ü¥O¡A¤è«K°£¿ù
-	private static final int BUFFER_SIZE = 4096;	// ¶Ç°eÀÉ®×®É¨Ï¥Îªº½w½Ä¤j¤p
+	private static boolean TOGGLE_COMMAND = false;	// é¡¯ç¤ºæœ¬åœ°ç«¯é€å‡ºçš„æŒ‡ä»¤ï¼Œæ–¹ä¾¿é™¤éŒ¯
+	private static final int BUFFER_SIZE = 4096;	// å‚³é€æª”æ¡ˆæ™‚ä½¿ç”¨çš„ç·©è¡å¤§å°
 	
 //	private static final String FILE_SEPARATOR = System.getProperty("file.separator");
 	
@@ -93,7 +93,7 @@ public class Ftp {
 		connect(host, port);
 	}
 	
-	// »P¦øªAºİ«Ø¥ß³s½u
+	// èˆ‡ä¼ºæœç«¯å»ºç«‹é€£ç·š
 	public synchronized void connect(String host, int port) throws IOException, FtpException {
 		if ( isConnected() ) {
 			throw new FtpException("Already connected to " + getHost() + ", disconnect first.");
@@ -119,7 +119,7 @@ public class Ftp {
 		login(username, password);
 	}
 	
-	// µn¤J¦øªAºİ
+	// ç™»å…¥ä¼ºæœç«¯
 	public synchronized void login(String username, String password) throws IOException, FtpException {
 		int code = sent(new FtpCommand(FtpCommand.USER_NAME, username)).getCode();
 		
@@ -131,7 +131,7 @@ public class Ftp {
 		this.password = password;
 	}
 	
-	// µ²§ô¥»¦aºİ»P¦øªAºİªº³q°T³sµ²
+	// çµæŸæœ¬åœ°ç«¯èˆ‡ä¼ºæœç«¯çš„é€šè¨Šé€£çµ
 	public synchronized void disconnect() throws IOException, FtpException {
 		try {
 			sent(new FtpCommand(FtpCommand.LOGOUT));
@@ -143,7 +143,7 @@ public class Ftp {
 		}
 	}
 	
-	// Ãö³¬³q°T³sµ²
+	// é—œé–‰é€šè¨Šé€£çµ
 	private synchronized void close() {
 		controlSocket = null;
 		reader = null;
@@ -154,19 +154,19 @@ public class Ftp {
 		password = null;
 	}
 	
-	// ¤Á´«¦øªAºİ¤u§@¥Ø¿ı
+	// åˆ‡æ›ä¼ºæœç«¯å·¥ä½œç›®éŒ„
 	public synchronized boolean setDir(String dir) throws IOException, FtpException {
 		FtpReply reply = sent(new FtpCommand(FtpCommand.CHANGE_WORKING_DIRECTORY, dir));
 		return ( reply.getCode() == FtpReply.REQUESTED_FILE_ACTION_OK );
 	}
 	
-	// ¤Á´«¦øªAºİ¤u§@¥Ø¿ı¨ì¤W¤@¼h
+	// åˆ‡æ›ä¼ºæœç«¯å·¥ä½œç›®éŒ„åˆ°ä¸Šä¸€å±¤
 	public synchronized boolean setDirUp() throws IOException, FtpException {
 		FtpReply reply = sent(new FtpCommand(FtpCommand.CHANGE_TO_PARENT_DIRECTORY));
 		return ( reply.getCode() == FtpReply.REQUESTED_FILE_ACTION_OK );
 	}
 	
-	// ¤Á´«¥»¦aºİ¤u§@¥Ø¿ı
+	// åˆ‡æ›æœ¬åœ°ç«¯å·¥ä½œç›®éŒ„
 	public boolean setLocalDir(String path) throws IOException {
 		File dir = mixPath(path);
 		
@@ -429,9 +429,9 @@ public class Ftp {
 		getReply();
 	}
 	
-	// Äò¶ÇÀÉ®×
+	// çºŒå‚³æª”æ¡ˆ
 	public synchronized void resume(String filename) throws IOException, FtpException {
-		// TODO Äò¶ÇÀÉ®×
+		// TODO çºŒå‚³æª”æ¡ˆ
 	}
 	
 	/**
@@ -494,7 +494,7 @@ public class Ftp {
 		return ( reply.getCode() == FtpReply.REQUESTED_FILE_ACTION_OK );
 	}
 	
-	// ¤¤Â_¦øªAºİ¤W¤@¦¸¥»¦aºİ©Ò¤Uªº«ü¥O
+	// ä¸­æ–·ä¼ºæœç«¯ä¸Šä¸€æ¬¡æœ¬åœ°ç«¯æ‰€ä¸‹çš„æŒ‡ä»¤
 	public synchronized boolean abort() throws IOException, FtpException {
 		FtpReply reply = sent(new FtpCommand(FtpCommand.ABORT));
 		dataSocket.close();

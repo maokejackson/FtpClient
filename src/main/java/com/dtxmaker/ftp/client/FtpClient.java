@@ -64,27 +64,27 @@ public class FtpClient {
 				String[] cmd = parseCommand(input.readLine());
 				int argv = cmd.length - 1;
 				
-				// ³]©wÀÉ®×¶Ç¿é«¬ºA¬°Ascii
+				// è¨­å®šæª”æ¡ˆå‚³è¼¸å‹æ…‹ç‚ºAscii
 				if ( cmd[0].equals("ascii") ) {
 					ftp.setAscii();
 					
-				// Äò¶ÇÀÉ®×
+				// çºŒå‚³æª”æ¡ˆ
 				} else if ( cmd[0].equals("append") ) {
-					// TODO Äò¶ÇÀÉ®×
+					// TODO çºŒå‚³æª”æ¡ˆ
 					notImplement();
 					
-				//	³]©wÀÉ®×¶Ç¿é«¬ºA¬°Binary
+				//	è¨­å®šæª”æ¡ˆå‚³è¼¸å‹æ…‹ç‚ºBinary
 				} else if ( cmd[0].equals("binary") ) {
 					ftp.setBinary();
 					
-				// µn¥X¨Ãµ²§ôFtpµ{¦¡
+				// ç™»å‡ºä¸¦çµæŸFtpç¨‹å¼
 				} else if ( cmd[0].equals("bye") || cmd[0].equals("quit") ) {
 					if ( ftp.isConnected() ) {
 						ftp.disconnect();
 					}
 					break;
 					
-				// ¤Á´«¦øªAºİ¤u§@¥Ø¿ı
+				// åˆ‡æ›ä¼ºæœç«¯å·¥ä½œç›®éŒ„
 				} else if ( cmd[0].equals("cd") ) {
 					if ( argv >= 1 ) {
 						ftp.setDir(cmd[1]);
@@ -92,11 +92,11 @@ public class FtpClient {
 						usage(cmd[0], "directory");
 					}
 					
-				// µ²§ô¥»¦aºİ»P¦øªAºİªº³q°T³sµ²
+				// çµæŸæœ¬åœ°ç«¯èˆ‡ä¼ºæœç«¯çš„é€šè¨Šé€£çµ
 				} else if ( cmd[0].equals("close") || cmd[0].equals("disconnect") ) {
 					ftp.disconnect();
 					
-				// §R°£¦øªAºİÀÉ®×
+				// åˆªé™¤ä¼ºæœç«¯æª”æ¡ˆ
 				} else if ( cmd[0].equals("delete") ) {
 					if ( argv >= 1 ) {
 						ftp.delete(cmd[1]);
@@ -104,7 +104,7 @@ public class FtpClient {
 						usage(cmd[0], "filename");
 					}
 					
-				// ¦C¥X¦øªAºİ¸Ô²Ó¥Ø¿ı²M³æ
+				// åˆ—å‡ºä¼ºæœç«¯è©³ç´°ç›®éŒ„æ¸…å–®
 				} else if ( cmd[0].equals("dir") ) {
 					Enumeration<?> list;
 					if ( argv >= 1 ) {
@@ -114,7 +114,7 @@ public class FtpClient {
 					}
 					while ( list.hasMoreElements() ) System.out.println(list.nextElement());
 					
-				// ±q¦øªAºİ¤U¸üÀÉ®×
+				// å¾ä¼ºæœç«¯ä¸‹è¼‰æª”æ¡ˆ
 				} else if ( cmd[0].equals("get") || cmd[0].equals("recv") ) {
 					if ( argv >= 1 ) {
 						ftp.download(cmd[1]);
@@ -122,7 +122,7 @@ public class FtpClient {
 						usage(cmd[0], "filename");
 					}
 					
-				// FTP«ü¥O»¡©ú
+				// FTPæŒ‡ä»¤èªªæ˜
 				} else if ( cmd[0].equals("help") || cmd[0].equals("?") ) {
 					if ( argv >= 1 ) {
 						help(cmd[1]);
@@ -130,7 +130,7 @@ public class FtpClient {
 						help();
 					}
 					
-				// ¤Á´«¥»¦aºİ·í«e¤u§@¥Ø¿ı
+				// åˆ‡æ›æœ¬åœ°ç«¯ç•¶å‰å·¥ä½œç›®éŒ„
 				} else if ( cmd[0].equals("lcd")) {
 					if ( argv >= 1 ) {
 						if ( ftp.setLocalDir(cmd[1]) ) {
@@ -142,7 +142,7 @@ public class FtpClient {
 						System.out.println(ftp.getLocalDir());
 					}
 					
-				// ¦C¥X¦øªAºİ¥Ø¿ı²M³æ
+				// åˆ—å‡ºä¼ºæœç«¯ç›®éŒ„æ¸…å–®
 				} else if ( cmd[0].equals("ls") ) {
 					Enumeration<?> list;
 					if ( argv >= 1 ) {
@@ -152,7 +152,7 @@ public class FtpClient {
 					}
 					while ( list.hasMoreElements() ) System.out.println(list.nextElement());
 					
-				// ¦b¦øªAºİ«Ø¥ß¥Ø¿ı
+				// åœ¨ä¼ºæœç«¯å»ºç«‹ç›®éŒ„
 				} else if ( cmd[0].equals("mkdir") ) {
 					if ( argv >= 1 ) {
 						ftp.makeDir(cmd[1]);
@@ -160,7 +160,7 @@ public class FtpClient {
 						usage(cmd[0], "directory");
 					}
 					
-				// »P¦øªAºİ«Ø¥ß³q°T³sµ²
+				// èˆ‡ä¼ºæœç«¯å»ºç«‹é€šè¨Šé€£çµ
 				} else if ( cmd[0].equals("open") ) {
 					if ( argv >= 2 ) {
 						ftp.connect(cmd[1], Integer.parseInt(cmd[2]));
@@ -176,7 +176,7 @@ public class FtpClient {
 						usage(cmd[0], "hostname [port]");
 					}
 					
-				// ¤W¶ÇÀÉ®×¨ì¦øªAºİ
+				// ä¸Šå‚³æª”æ¡ˆåˆ°ä¼ºæœç«¯
 				} else if ( cmd[0].equals("put") || cmd[0].equals("send") ) {
 					if ( argv >= 1 ) {
 						ftp.upload(cmd[1]);
@@ -184,16 +184,16 @@ public class FtpClient {
 						usage(cmd[0], "filename");
 					}
 					
-				// Åã¥Ü¦øªAºİ·í«e¤u§@¥Ø¿ı
+				// é¡¯ç¤ºä¼ºæœç«¯ç•¶å‰å·¥ä½œç›®éŒ„
 				} else if ( cmd[0].equals("pwd") ) {
 					ftp.getDir();
 					
-				// ­«·s©R¦W¦øªAºİÀÉ®×
+				// é‡æ–°å‘½åä¼ºæœç«¯æª”æ¡ˆ
 				} else if ( cmd[0].equals("rename") ) {
 					if ( argv >= 2 ) ftp.rename(cmd[1], cmd[2]);
 					else usage(cmd[0], "from to");
 					
-				// ²¾°£¦øªAºİ¥Ø¿ı
+				// ç§»é™¤ä¼ºæœç«¯ç›®éŒ„
 				} else if ( cmd[0].equals("rmdir") ) {
 					if ( argv >= 1 ) {
 						ftp.deleteDir(cmd[1]);
@@ -201,7 +201,7 @@ public class FtpClient {
 						usage(cmd[0], "directory");
 					}
 					
-				// µn¤J¦øªAºİ
+				// ç™»å…¥ä¼ºæœç«¯
 				} else if ( cmd[0].equals("user") ) {
 					if ( argv >= 2 ) {
 						ftp.login(cmd[1], cmd[2]);
@@ -211,7 +211,7 @@ public class FtpClient {
 						usage(cmd[0], "username [password]");
 					}
 					
-				// «Dªk«ü¥O
+				// éæ³•æŒ‡ä»¤
 				} else {
 					System.out.println("Invalid command.");
 				}
@@ -225,7 +225,7 @@ public class FtpClient {
 		input.close();
 	}
 	
-	// ¸ÑªR«ü¥O§â¦h¾lªºªÅ®æ¥h±¼¡A¨Ã¥B§âÂù¤Ş¸¹¤ºªº¤å¦rµø¬°¤@­Ó°Ñ¼Æ
+	// è§£ææŒ‡ä»¤æŠŠå¤šé¤˜çš„ç©ºæ ¼å»æ‰ï¼Œä¸¦ä¸”æŠŠé›™å¼•è™Ÿå…§çš„æ–‡å­—è¦–ç‚ºä¸€å€‹åƒæ•¸
 	private static String[] parseCommand(String command) {
 		int counter = 0;
 		boolean start = true;
@@ -254,7 +254,7 @@ public class FtpClient {
 		return (String[]) v.toArray(new String[counter]);
 	}
 	
-	// °õ¦æµn¤Jªº°Ê§@
+	// åŸ·è¡Œç™»å…¥çš„å‹•ä½œ
 	private static void doLogin(BufferedReader in, Ftp ftp) throws IOException, FtpException {
 		System.out.print("username: ");
 		String username = in.readLine();
@@ -263,7 +263,7 @@ public class FtpClient {
 		ftp.login(username, password);
 	}
 	
-	// Åã¥Ü¥»¦aºİ©Ò¤ä´©ªº«ü¥O
+	// é¡¯ç¤ºæœ¬åœ°ç«¯æ‰€æ”¯æ´çš„æŒ‡ä»¤
 	private static void help() {
 		for ( int i = 0; i < HELP.length; i+=2 ) {
 			if ( (i%10) == 8 ) {
@@ -278,7 +278,7 @@ public class FtpClient {
 		System.out.println("");
 	}
 	
-	// Åã¥Ü«ü¥Oªº»¡©ú¤å¦r
+	// é¡¯ç¤ºæŒ‡ä»¤çš„èªªæ˜æ–‡å­—
 	private static void help(String cmd) {
 		for ( int i = 0; i < HELP.length; i+=2 ) {
 			if ( HELP[i].equals(cmd) ) {
@@ -291,13 +291,13 @@ public class FtpClient {
 		System.out.println("Invalid help command " + cmd + ".");
 	}
 	
-	// Åã¥Ü«ü¥Oªº¥Îªk
+	// é¡¯ç¤ºæŒ‡ä»¤çš„ç”¨æ³•
 	private static void usage(String cmd, String arg) {
 		System.out.println("Usage: " + cmd + " " + arg);
 	}
 	
-	// ¥\¯à¥¼¹ê§@®ÉÅã¥Üªº°T®§
-	// ©Ò¦³¥\¯à§¹¦¨«á±N³Q²¾°£
+	// åŠŸèƒ½æœªå¯¦ä½œæ™‚é¡¯ç¤ºçš„è¨Šæ¯
+	// æ‰€æœ‰åŠŸèƒ½å®Œæˆå¾Œå°‡è¢«ç§»é™¤
 	private static void notImplement() {
 		System.out.println("Not implemented yet.");
 	}
